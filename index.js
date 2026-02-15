@@ -1,8 +1,6 @@
 // =============================================
 // STEP 1: Set up the image array 
 // =============================================
-// Array of all images to cycle through
-// Customize these paths to your own images
 const images = [
   './assets/image-content/image-1.png',
   './assets/image-content/image-2.png',
@@ -15,61 +13,86 @@ const images = [
 // =============================================
 // STEP 2: Reference HTML elements 
 // =============================================
-// Connect to the elements we need to change
-const imageContent = document.querySelector('.image-content');  // Image container
-const mainButton = document.getElementById('main-button');      // Image switch button
-const finalMessage = document.querySelector('.final-message');  // Final message
+const imageContent = document.querySelector('.image-content');   // Image container
+const mainButton = document.getElementById('main-button');       // Image switch button
+const finalMessage = document.querySelector('.final-message');   // Final message
+
+// NEW: Letter popup elements (make sure these IDs exist in index.html)
+const letterOverlay = document.getElementById('letter-overlay');
+const letterClose = document.getElementById('letter-close');
 
 // =============================================
 // STEP 3: Track what image we're at 
 // =============================================
-// Start with the first image (index 0)
 let currentIndex = 0;
 
 // =============================================
 // STEP 4: Update image function 
 // =============================================
-// Function to change images with fade effect
 function updateImage() {
-  // Fade out current image
   imageContent.style.opacity = 0;
-  
-  // Preload next image
+
   const img = new Image();
   img.src = images[currentIndex];
-  
-  // When image is loaded
+
   img.onload = () => {
-    // Change to new image
     imageContent.style.backgroundImage = `url('${images[currentIndex]}')`;
-    
-    // Fade in new image
     imageContent.style.opacity = 1;
   };
 }
 
 // =============================================
-// STEP 5: Initial image display 
+// STEP 5: Letter open/close functions
 // =============================================
-// Show first image when page loads
+function openLetter() {
+  // safety check in case IDs are missing
+  if (!letterOverlay) return;
+  letterOverlay.classList.add('show');
+}
+
+function closeLetter() {
+  if (!letterOverlay) return;
+  letterOverlay.classList.remove('show');
+}
+
+// Close button click
+if (letterClose) {
+  letterClose.addEventListener('click', closeLetter);
+}
+
+// Optional: click outside the card closes the popup
+if (letterOverlay) {
+  letterOverlay.addEventListener('click', (e) => {
+    if (e.target === letterOverlay) closeLetter();
+  });
+}
+
+// Optional: press Escape to close
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLetter();
+});
+
+// =============================================
+// STEP 6: Initial image display 
+// =============================================
 updateImage();
 
 // =============================================
-// STEP 6: Button click handler 
+// STEP 7: Button click handler 
 // =============================================
-// Change image when button is clicked
 mainButton.addEventListener('click', () => {
-  // Go to next image
   currentIndex++;
-  
-  // Update if not at the end
+
   if (currentIndex < images.length) {
     updateImage();
   }
-  
-  // Once at the last image, show the final message and hide the button 
+
+  // When we reach the last image
   if (currentIndex === images.length - 1) {
     mainButton.style.display = 'none';
     finalMessage.style.display = 'block';
+
+    // NEW: open the letter popup
+    openLetter();
   }
 });
