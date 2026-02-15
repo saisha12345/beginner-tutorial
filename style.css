@@ -183,3 +183,70 @@
       font-size: calc(var(--font-size-large) - 0.25rem);
     }
   }
+/* ===========================================
+   Valentine Letter Popup
+=========================================== */
+
+.letter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none; /* hidden by default */
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  padding: 20px;
+}
+
+.letter-overlay.show {
+  display: flex;
+}
+
+.letter-card {
+  width: min(520px, 92vw);
+  background: #fff7f4;
+  border: var(--border-width-inner) solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 18px 18px 16px;
+  position: relative;
+  box-shadow: 0 16px 45px rgba(0,0,0,0.25);
+  animation: popIn 0.25s ease-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.letter-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: var(--border-width-inner) solid var(--color-border);
+  background: #fff;
+  color: var(--color-border);
+  font-family: var(--font-family-main);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.letter-title {
+  margin: 4px 0 10px;
+  color: var(--color-message-text);
+  font-family: var(--font-family-main);
+  font-weight: 500;
+  font-size: 1.5rem;
+}
+
+.letter-text {
+  margin: 0;
+  color: var(--color-message-text);
+  font-family: var(--font-family-main);
+  font-size: 1.05rem;
+  line-height: 1.45;
+  white-space: normal;
+}
